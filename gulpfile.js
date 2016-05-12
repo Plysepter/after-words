@@ -12,6 +12,8 @@ var browserSync = require('browser-sync').create();
 
 var uglify = require('gulp-uglify');
 
+var htmlmin = require('gulp-htmlmin');
+
 var cssnano = require('gulp-cssnano');
 
 var gulpIf = require('gulp-if');
@@ -32,8 +34,13 @@ gulp.task('sass', function () {
         }))
 });
 
-gulp.task('copyHtml', function() {
-    return gulp.src('app/**')
+/*gulp.task('copyHtml', function() {
+    return gulp.src('app/index.html')
+        .pipe(gulp.dest('dist/'))
+});*/
+
+gulp.task('copyPHP', function() {
+    return gulp.src('app/**.php')
         .pipe(gulp.dest('dist/'))
 });
 
@@ -46,11 +53,18 @@ gulp.task('webSpin', function () {
 });
 
 gulp.task('useref', function(){
-    return gulp.src('app/*.html')
+    return gulp.src('app/index.html')
         .pipe(useref())
         // Minifies only if it's a JavaScript file
         .pipe(gulpIf('*.js', uglify()))
         .pipe(gulpIf('*.css', cssnano()))
+        .pipe(gulp.dest('dist'))
+});
+
+
+gulp.task('htmlMin', function() {
+    return gulp.src('dist/*.html')
+        .pipe(htmlmin({collapseWhitespace: true, removeComments: true, removeRedundantAttributes: true}))
         .pipe(gulp.dest('dist'))
 });
 
@@ -74,7 +88,8 @@ gulp.task('default', function (callback) {
 
 gulp.task('build', function (callback) {
     runSequence('clean',
-        ['sass', 'useref', 'images', 'copyHtml'],
+        ['sass', 'useref', 'images', 'copyPHP'],
+        'htmlMin',
         callback
     )
 });

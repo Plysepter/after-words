@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, height=device-height, initial-scale=1" name="viewport">
     <title>After Words</title>
+    <!--build:js js/main.min.js-->
+    <script src="js/jquery.js"></script>
+    <script src="js/main.js"></script>
+    <!-- endbuild -->
+
+    <!--build:css css/styles.min.css-->
     <link href="css/bootstrap.css" rel="stylesheet"/>
     <link href="css/main.css" rel="stylesheet"/>
+    <!-- endbuild -->
 </head>
 <body>
 <div class="container-fluid">
@@ -43,7 +50,7 @@
     <div class="col-md-4" id="contactForm">
         <h2 class="text-center"><b>Contact Us</b></h2>
         <br>
-        <form>
+        <form action="javascript:emailSubmit();">
             <div class="col-md-3">
                 <label for="nameOrCompany">Name:</label>
             </div>
@@ -82,7 +89,7 @@
             </div>
             <div class="col-md-3"></div>
             <div class="col-md-9">
-                <input type="submit" class="text-center" click="submit()" id="submitEmail">
+                <input type="submit" class="text-center" id="submitEmail">
             </div>
         </form>
     </div>
