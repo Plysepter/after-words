@@ -26,7 +26,7 @@ var del = require('del');
 
 
 gulp.task('sass', function () {
-    return gulp.src('app/sass/**.sass')
+    return gulp.src('app/sass/main.sass')
         .pipe(sass())
         .pipe(gulp.dest('app/css'))
         .pipe(browserSync.reload({
@@ -34,12 +34,7 @@ gulp.task('sass', function () {
         }))
 });
 
-/*gulp.task('copyHtml', function() {
-    return gulp.src('app/index.html')
-        .pipe(gulp.dest('dist/'))
-});*/
-
-gulp.task('copyPHP', function() {
+gulp.task('copyPHP', function () {
     return gulp.src('app/**.php')
         .pipe(gulp.dest('dist/'))
 });
@@ -52,7 +47,7 @@ gulp.task('webSpin', function () {
     })
 });
 
-gulp.task('useref', function(){
+gulp.task('useref', function () {
     return gulp.src('app/index.html')
         .pipe(useref())
         // Minifies only if it's a JavaScript file
@@ -61,14 +56,13 @@ gulp.task('useref', function(){
         .pipe(gulp.dest('dist'))
 });
 
-
-gulp.task('htmlMin', function() {
+gulp.task('htmlMin', function () {
     return gulp.src('dist/*.html')
         .pipe(htmlmin({collapseWhitespace: true, removeComments: true, removeRedundantAttributes: true}))
         .pipe(gulp.dest('dist'))
 });
 
-gulp.task('images', function(){
+gulp.task('images', function () {
     return gulp.src('app/images/**/*.+(png|jpg|jpeg|gif|svg)')
         .pipe(imagemin({
             interlaced: true
@@ -76,25 +70,26 @@ gulp.task('images', function(){
         .pipe(gulp.dest('dist/images'))
 });
 
-gulp.task('clean', function() {
+gulp.task('clean', function () {
     return del.sync('dist');
 });
 
 gulp.task('default', function (callback) {
-    runSequence(['sass','webSpin', 'watch'],
+    runSequence(['sass', 'webSpin', 'watch'],
         callback
     )
 });
 
 gulp.task('build', function (callback) {
     runSequence('clean',
-        ['sass', 'useref', 'images', 'copyPHP'],
+        ['sass', 'images', 'copyPHP'],
+        'useref',
         'htmlMin',
         callback
     )
 });
 
-gulp.task('watch', ['webSpin', 'sass'], function (){
+gulp.task('watch', ['webSpin', 'sass'], function () {
     gulp.watch('app/sass/**/*.scss', ['sass']);
     gulp.watch('app/*.html', browserSync.reload);
     gulp.watch('app/js/**.js', browserSync.reload);

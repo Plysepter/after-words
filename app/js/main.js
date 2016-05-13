@@ -31,7 +31,8 @@ function emailSubmit() {
         dataType: 'json',
         success: function (response) {
             //set success message
-            console.dir(response);
+            $('#response').show().text("You send the stuff correctly this time");
         }
     });
+
 }
